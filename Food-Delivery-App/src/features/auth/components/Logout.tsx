@@ -1,37 +1,12 @@
-import React, { ComponentProps } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  Switch,
-} from "react-native";
-
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "../../../app/Providers/ThemeProvider";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { globalTheme } from "../../../shared/theme/theme";
-import { useAuthStore } from "../../auth/store/auth.store";
-
-type IoniconName = ComponentProps<typeof Ionicons>["name"];
-
-export type MenuTileProps = {
-  icon: IoniconName;
-  title: string;
-  subtitle?: string;
-  showArrow?: boolean;
-  isDestructive?: boolean;
-  onPress?: () => void;
-};
-const ProfileScreen = () => {
-  const { theme, toggleTheme } = useTheme();
+import { useTheme } from "../../../app/Providers/ThemeProvider";
+import { MenuTileProps } from "../../profile/screens/ProfileScreen";
+const Logout = () => {
+  const { theme } = useTheme();
   const styles = createStyles(theme);
-
-  const {user} = useAuthStore();
-  if(!user) return null;
-
   const MenuTile = ({
     icon,
     title,
@@ -45,14 +20,12 @@ const ProfileScreen = () => {
       onPress={onPress}
       activeOpacity={0.7}
     >
-      
       <View
         style={[
           styles.iconContainer,
           isDestructive && styles.destructiveIconContainer,
         ]}
       >
-        
         <Ionicons
           name={icon}
           size={20}
@@ -60,7 +33,6 @@ const ProfileScreen = () => {
         />
       </View>
       <View style={styles.menuTextContainer}>
-        
         <Text
           style={[styles.menuTitle, isDestructive && styles.destructiveText]}
         >
@@ -78,127 +50,21 @@ const ProfileScreen = () => {
     </TouchableOpacity>
   );
 
-
   return (
-    <SafeAreaView style={styles.container} edges={[]}>
-      
-      <ScrollView showsVerticalScrollIndicator={false}>
-        
-        {/* Profile Header */}
-        <View style={styles.header}>
-          
-          <View style={styles.profileInfo}>
-            
-            <View style={styles.avatarWrapper}>
-              
-              <Image
-                source={{
-                  uri: user.avatar.url,
-                }}
-                style={styles.avatar}
-              />
-              <TouchableOpacity style={styles.editBadge}>
-                
-                <Ionicons name="camera" size={14} color="#FFF" />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.userName}>{user.username}</Text>
-            <Text style={styles.userEmail}>{user.email}</Text>
-          </View>
-          {/* Membership Card */}
-          <View style={styles.membershipCard}>
-            
-            <View style={styles.rowBetween}>
-              
-              <View>
-                
-                <Text style={styles.membershipLabel}>Gold Member</Text>
-                <Text style={styles.pointsText}>1,240 Points</Text>
-              </View>
-              <Ionicons name="trophy" size={32} color="#FFD700" />
-            </View>
-            <View style={styles.progressContainer}>
-              
-              <View style={styles.progressBarBg}>
-                
-                <View style={[styles.progressBarFill, { width: "75%" }]} />
-              </View>
-              <Text style={styles.progressText}>
-                260 points until Platinum
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.content}>
-          
-          <Text style={styles.sectionTitle}>Account Settings</Text>
-          <View style={styles.menuGroup}>
-            
-            <MenuTile
-              icon="person-outline"
-              title="Personal Information"
-              subtitle="Edit your name, email, and phone"
-            />
-            <MenuTile
-              icon="location-outline"
-              title="Delivery Addresses"
-              subtitle="Home, Work, and other locations"
-            />
-            <MenuTile
-              icon="card-outline"
-              title="Payment Methods"
-              subtitle="Visa •••• 4242, Apple Pay"
-            />
-          </View>
-          <Text style={styles.sectionTitle}>Preferences</Text>
-          <View style={styles.menuGroup}>
-            
-            <View style={styles.menuTile}>
-              
-              <View style={styles.iconContainer}>
-                
-                <Ionicons
-                  name="moon-outline"
-                  size={20}
-                  color={theme.colors.brand.primary}
-                />
-              </View>
-              <View style={styles.menuTextContainer}>
-                
-                <Text style={styles.menuTitle}>Dark Mode</Text>
-              </View>
-              <Switch
-                value={theme.mode === "Dark"}
-                onValueChange={toggleTheme}
-                trackColor={{
-                  false: theme.colors.surfaces.outline,
-                  true: theme.colors.brand.primary,
-                }}
-                thumbColor="#FFF"
-              />
-            </View>
-            <MenuTile
-              icon="notifications-outline"
-              title="Notifications"
-              subtitle="Manage alerts and promos"
-            />
-          </View>
-          <Text style={styles.sectionTitle}>Support</Text>
-          <View style={styles.menuGroup}>
-            
-            <MenuTile icon="help-circle-outline" title="Help Center" />
-            <MenuTile
-              icon="document-text-outline"
-              title="Terms & Privacy"
-            />
-          </View>
-          <Text style={styles.versionText}>Version 2.4.0 (Build 102)</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <TouchableOpacity style={styles.logoutButton}>
+      <MenuTile
+        icon="log-out-outline"
+        title="Log Out"
+        showArrow={false}
+        isDestructive={true}
+      />
+    </TouchableOpacity>
   );
 };
-const createStyles = (theme:typeof globalTheme.light) =>
+
+export default Logout;
+
+const createStyles = (theme: typeof globalTheme.light) =>
   StyleSheet.create({
     container: { flex: 1, backgroundColor: theme.colors.surfaces.background },
     header: {
@@ -334,4 +200,3 @@ const createStyles = (theme:typeof globalTheme.light) =>
       opacity: 0.6,
     },
   });
-export default ProfileScreen;

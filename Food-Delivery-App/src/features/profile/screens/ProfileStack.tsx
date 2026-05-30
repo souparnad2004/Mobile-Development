@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ProfileScreen from "./ProfileScreen";
 import ProfileDrawer from "../../../navigation/drawer/DrawerNavigation";
+import Logout from "../../auth/components/Logout";
 
 const Stack = createNativeStackNavigator();
 

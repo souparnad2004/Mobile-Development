@@ -62,6 +62,9 @@ const CATEGORIES = [
       "https://images.unsplash.com/photo-1544145945-f904253d0c7b?auto=format&fit=crop&w=400&q=80",
   },
 ];
+
+
+
 const SearchScreen = () => {
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
